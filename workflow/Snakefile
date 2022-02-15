@@ -1,4 +1,43 @@
-# Main entrypoint of the workflow. 
-# Please follow the best practices: 
-# https://snakemake.readthedocs.io/en/stable/snakefiles/best_practices.html,
-# in particular regarding the standardized folder structure mentioned there. 
+configfile: "config/config.yaml"
+#GENERAL
+SAMPLEOUT = config["general"]["sampleout"]
+THREADS = config["general"]["threads"]
+#GENOME AND GTF
+GTF = config["genome"]["gtf"]
+GENDIR = config["genome"]["dir"]
+GENNAME = config["genome"]["name"]
+GENEXT = config["genome"]["ext"]
+GENOME = GENDIR+GENNAME+GENEXT
+#FASTQ
+SAMPLEEXT = config["raw_spec"]["ext"]
+#STAR PARAMETERS
+STAR_OPT = config["star"]
+#SAMTOOLS
+SAMTOOLS_OPT = config["samtools"]
+README_file = config["general"]["files_info"]
+README = {}
+with open(README_file,"r") as file:
+	for line in file:
+		infos = line.strip("\n").split("\t")
+		exp_name = infos[3]
+		SRR = infos[0]
+		if exp_name in README.keys():
+			README[exp_name].append(SRR)
+		else:
+			README[exp_name] = [SRR]
+
+SAMPLES = README.keys()
+
+
+include:"rules/SRR.smk"
+include:"rules/STAR_quant.smk"
+include:"rules/samtools.smk"
+
+
+#ALL
+rule all:
+	input:
+		expand(SAMPLEOUT+"/mapping/bam/{sample}.sorted.bai",sample=SAMPLES),
+		expand(SAMPLEOUT+"/mapping/counts/STAR/{sample}_counts.tsv",sample=SAMPLES)
+
+

@@ -1,0 +1,21 @@
+general:
+  files_info: "config/file_specs.txt"
+  sampleout: "PROCESSED_RNA_SEQ"
+  threads:
+    aln: 12
+    index: 12
+    samtools: 12
+genome:
+  dir: "/DATA2/bioinfo_bigA/teamMattout/ce11/"
+  name: "ce11"
+  ext: ".fa"
+  gtf: "/DATA2/bioinfo_bigA/teamMattout/ce11/Caenorhabditis_elegans.WBcel235.105_proper_name.gtf"
+raw_spec:
+  ext: ".fastq.gz"
+star:
+  custom: ""
+  reads_length: 51
+  readFilesCommand: "--readFilesCommand gunzip -c"
+samtools:
+    quality: 25
+    custom: ""

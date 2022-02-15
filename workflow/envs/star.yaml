@@ -1,0 +1,6 @@
+name: rnaseq.star
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+  - star=2.5.4a

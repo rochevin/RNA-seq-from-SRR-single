@@ -1,0 +1,6 @@
+name: rnaseq.sra-tools
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+  - sra-tools
